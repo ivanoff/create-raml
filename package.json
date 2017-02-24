@@ -1,0 +1,40 @@
+{
+  "name": "create-raml",
+  "version": "1.0.1",
+  "description": "Create RAML",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivanoff/create-raml.git"
+  },
+  "keywords": [
+    "RAML",
+    "creator",
+    "builder"
+  ],
+  "author": "Dimitry Ivanov <2@ivanoff.org.ua> (http://ivanoff.org.ua/)",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/brentertz/scapegoat/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/ivanoff/create-raml/issues"
+  },
+  "homepage": "https://github.com/ivanoff/create-raml",
+  "devDependencies": {
+    "coveralls": "^2.11.15",
+    "istanbul": "^0.4.5",
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3",
+    "raml2html": "^5.0.0",
+    "raml2obj": "^5.0.0"
+  },
+  "dependencies": {
+    "nunjucks": "^3.0.0"
+  }
+}
