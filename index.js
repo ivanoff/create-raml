@@ -5,11 +5,14 @@
  */
 'use strict';
 var fs = require('fs');
+var path = require("path");
 var nunjucks = require('nunjucks');
 
 exports = module.exports = function (options) {
 
   if (typeof options === 'undefined') var options = {};
+  if (typeof options.templateFileName === 'undefined')
+    options.templateFileName = path.resolve(__dirname, 'template/raml_1_0.nunjucks');
   var typesData = {};
   var methodsData = {};
 
@@ -28,7 +31,8 @@ exports = module.exports = function (options) {
       } else if (typeof obj === 'undefined') {
         methodsData[name] = method;
       } else {
-        if (!methodsData[name]) methodsData[name] = {};
+        /* istanbul ignore else */
+        if (typeof methodsData[name] === 'undefined') methodsData[name] = {};
         methodsData[name][method] = obj;
       }
     },
@@ -38,23 +42,23 @@ exports = module.exports = function (options) {
 
       var url = Object.keys(methodsData).sort();
       var methodsTree = {};
-      for( var i = url.length-1; i>=0; i-- ) {
-        for( var j = i-1; j>=0; j-- ) {
-          if(typeof methodsTree[url[i]] === 'undefined' && url[i].indexOf(url[j]+'/') == 0){
-console.log(`${url[i]} -> ${url[j]}`);
+      for (var i = url.length - 1; i >= 0; i--) {
+        for (var j = i - 1; j >= 0; j--) {
+          /* istanbul ignore else */
+          if (typeof methodsTree[url[i]] === 'undefined' && url[i].indexOf(url[j] + '/') == 0) {
             methodsTree[url[i]] = {
-              shortLink : url[i].replace(url[j]+'/',''),
-              deep: url[j].split('/').length
+              shortLink: url[i].replace(url[j] + '/', ''),
+              deep: url[j].split('/').length,
             };
           }
         }
-        if(typeof methodsTree[url[i]] === 'undefined'){
-          methodsTree[url[i]] = {shortLink: url[i], deep: 0};
+
+        if (typeof methodsTree[url[i]] === 'undefined') {
+          methodsTree[url[i]] = { shortLink: url[i], deep: 0 };
         }
       }
-console.log(methodsTree);
-console.log(methodsData);
-      fs.readFile('template/raml_1_0.nunjucks', function (err, template) {
+
+      fs.readFile(options.templateFileName, function (err, template) {
         if (err) {
           cb(err);
         } else {
@@ -67,14 +71,17 @@ console.log(methodsData);
             stringify: function (value, replacer, space, indent) {
               return JSON.stringify(value, replacer, space).replace(/^/gm, Array(indent).join(' '));
             },
+
             updatePath: function (path) {
               return path.replace(/\/:([^/:-]+)/g, '/{$1}');
             },
-            regReplace: function( what, from, to, flags ) {
-              return what.replace( new RegExp(from, flags), to );
+
+            regReplace: function (what, from, to, flags) {
+              return what.replace(new RegExp(from, flags), to);
             },
-            repeat: function( what, count ) {
-              return Array(count+1).join(what)
+
+            repeat: function (what, count) {
+              return Array(count + 1).join(what);
             },
           };
           cb(null, nunjucks.renderString(template.toString(), view));

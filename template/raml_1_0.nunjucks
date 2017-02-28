@@ -1,6 +1,8 @@
 #%RAML 1.0
 title: {{ options.title }}
+{%- if options.baseUri %}
 baseUri: {{ options.baseUri }}
+{%- endif %}
 version: {{ options.v1 }}
 
 types:
