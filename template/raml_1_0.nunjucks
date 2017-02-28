@@ -1,0 +1,46 @@
+#%RAML 1.0
+title: {{ options.title }}
+baseUri: {{ options.baseUri }}
+version: {{ options.v1 }}
+
+types:
+{%- for name, object in typesData %}
+  {{ name }}: |
+{{ stringify(object, null, '  ', 6) | safe }}
+{% endfor -%}
+
+{% macro urlBlock(url, methods) %}
+/{{ updatePath(url) }}:
+  {%- for method, object in methods %}
+  {{ method }}:
+    description: {{ object.description }}
+  {%- if object.body %}
+    body:
+    {%- for type, body in object.body %}
+      {{ type }}:
+        type: {{ body.type }}
+        example: |
+{{ stringify(body.example, null, '  ', 10) | safe }}
+    {%- endfor %}
+  {%- endif %}
+  {%- if object.responses %}
+    responses:
+    {%- for code, responses in object.responses %}
+      {{ code }}:
+        body:
+        {%- for type, example in responses %}
+          {{ type }}:
+            example: |
+{{ stringify(example, null, '  ', 14) | safe }}
+        {%- endfor %}
+    {%- endfor %}
+  {%- endif %}
+  {%- endfor %}
+{% endmacro %}
+
+{%- for url in methods %}
+  {%- set methods = methodsData[url] %}
+  {%- set tree = methodsTree[url] %}
+  {{- regReplace( urlBlock(tree.shortLink, methods), '^', repeat(' ',tree.deep*2), 'gm' ) | safe }}
+{%- endfor -%}
+
