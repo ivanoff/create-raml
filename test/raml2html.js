@@ -205,8 +205,7 @@ describe('testing with raml2html', function () {
         it('file not exists testing', function (done) {
           this.raml.generate(function (err, ramlText) {
             (err instanceof Error).should.equal(true);
-            String(err).should.eql('Error: ENOENT: ' +
-              "no such file or directory, open 'template/noFile'");
+            String(err).should.match(/ENOENT: no such file/);
             done();
           });
         });
