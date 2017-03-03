@@ -1,0 +1,47 @@
+#%RAML 0.8
+---
+title: {{ options.title }}
+{%- if options.baseUri %}
+baseUri: {{ options.baseUri }}
+{%- endif %}
+version: {{ options.versionAPI }}
+
+schemas:
+{%- for name, object in types %}
+  {{ name }}: |
+{{ f.stringify(object, null, '  ', 6) | safe }}
+{%- endfor %}
+{% macro urlBlock(url, methods) %}
+{{ f.updatePath(url) }}:
+  {%- for method, object in methods %}
+  {{ method }}:
+    description: {{ object.description }}
+  {%- if object.body %}
+    body:
+    {%- for type, body in object.body %}
+      {{ type }}:
+        schema: {{ body.type }}
+        example: |
+{{ f.stringify(body.example, null, '  ', 10) | safe }}
+    {%- endfor %}
+  {%- endif %}
+  {%- if object.responses %}
+    responses:
+    {%- for code, responses in object.responses %}
+      {{ code }}:
+        body:
+        {%- for type, example in responses %}
+          {{ type }}:
+            example: |
+{{ f.stringify(example, null, '  ', 14) | safe }}
+        {%- endfor %}
+    {%- endfor %}
+  {%- endif %}
+  {%- endfor %}
+{% endmacro %}
+
+{%- for u in url %}
+  {%- set m = methods[u] -%}
+  {{- f.regReplace( urlBlock(m.shortLink, m.data), '^', f.repeat(' ', m.deep*2), 'gm' ) | safe }}
+{%- endfor -%}
+

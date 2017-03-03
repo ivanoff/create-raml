@@ -2,16 +2,15 @@
 
 var should = require('chai').should();
 var fs = require('fs');
-var raml2html = require('raml2html');
+var raml2obj = require('raml2obj');
 
 var Raml = require('../');
-var testFileName = 'test-raml2html.raml';
+var testFileName = 'test-raml2obj.raml';
 
 function checkRaml(raml, done) {
   raml.generate(function (err, ramlText) {
     fs.writeFile(testFileName, ramlText, function (err) {
-      var configWithDefaultTheme = raml2html.getConfigForTheme();
-      raml2html.render(testFileName, configWithDefaultTheme).then(function (result) {
+      raml2obj.parse(testFileName).then(function (result) {
         done();
       }, function (error) {
 
@@ -21,7 +20,7 @@ function checkRaml(raml, done) {
   });
 }
 
-describe('testing with raml2html', function () {
+describe('testing with raml2obj', function () {
 
     describe('Simple RAML', function () {
 

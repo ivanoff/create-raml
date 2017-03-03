@@ -12,7 +12,7 @@
 
 ### Create RAML from object
 
- v1.1.2
+ v2.0.1
 
 
 ## Installation
@@ -22,7 +22,7 @@
 ## Usage
 
 ```javascript
-var Raml = require('../index');
+var Raml = require('create-raml');
 var raml = new Raml({
   title: 'Testing',
   baseUri: 'http://localhost:3000',
@@ -54,7 +54,7 @@ raml.generate(function (err, ramlText) {
 #%RAML 1.0
 title: Testing
 baseUri: http://localhost:3000
-version: 
+version: v1
 
 types:
   books: |
@@ -97,6 +97,11 @@ types:
 ## Tests
 
 ```npm test```
+
+
+## Change Log
+
+[all changes](CHANGELOG.md)
 
 
 ## Created by

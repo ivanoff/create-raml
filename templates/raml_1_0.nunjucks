@@ -3,16 +3,15 @@ title: {{ options.title }}
 {%- if options.baseUri %}
 baseUri: {{ options.baseUri }}
 {%- endif %}
-version: {{ options.v1 }}
+version: {{ options.versionAPI }}
 
 types:
-{%- for name, object in typesData %}
+{%- for name, object in types %}
   {{ name }}: |
-{{ stringify(object, null, '  ', 6) | safe }}
-{% endfor -%}
-
+{{ f.stringify(object, null, '  ', 6) | safe }}
+{%- endfor %}
 {% macro urlBlock(url, methods) %}
-/{{ updatePath(url) }}:
+{{ f.updatePath(url) }}:
   {%- for method, object in methods %}
   {{ method }}:
     description: {{ object.description }}
@@ -22,7 +21,7 @@ types:
       {{ type }}:
         type: {{ body.type }}
         example: |
-{{ stringify(body.example, null, '  ', 10) | safe }}
+{{ f.stringify(body.example, null, '  ', 10) | safe }}
     {%- endfor %}
   {%- endif %}
   {%- if object.responses %}
@@ -33,16 +32,15 @@ types:
         {%- for type, example in responses %}
           {{ type }}:
             example: |
-{{ stringify(example, null, '  ', 14) | safe }}
+{{ f.stringify(example, null, '  ', 14) | safe }}
         {%- endfor %}
     {%- endfor %}
   {%- endif %}
   {%- endfor %}
 {% endmacro %}
 
-{%- for url in methods %}
-  {%- set methods = methodsData[url] %}
-  {%- set tree = methodsTree[url] %}
-  {{- regReplace( urlBlock(tree.shortLink, methods), '^', repeat(' ',tree.deep*2), 'gm' ) | safe }}
+{%- for u in url %}
+  {%- set m = methods[u] -%}
+  {{- f.regReplace( urlBlock(m.shortLink, m.data), '^', f.repeat(' ', m.deep*2), 'gm' ) | safe }}
 {%- endfor -%}
 
