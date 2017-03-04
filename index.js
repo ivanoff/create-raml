@@ -54,7 +54,7 @@ exports = module.exports = function (options) {
       if(req.route) {
         var r = req.route;
         if(undef(methodsData[r.path])) methodsData[r.path] = {};
-        if(undef(methodsData[r.path][r.stack.method]))
+        if(undef(methodsData[r.path][r.stack[0].method]))
           methodsData[r.path][r.stack[0].method] = {
             description: r.stack[0].method + ' STORED ' + r.path,
           }

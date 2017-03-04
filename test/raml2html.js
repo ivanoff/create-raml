@@ -21,7 +21,7 @@ function checkRaml(raml, done) {
   });
 }
 
-describe('testing with raml2html', function () {
+describe.skip('testing with raml2html', function () {
 
     describe('Simple RAML', function () {
 

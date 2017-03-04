@@ -99,6 +99,7 @@ describe('with httpMocks', function () {
     ], }, };
     app.use = function() {};
 
+    var raml = new Raml({ express: app });
     var request = {};
     var response = {};
 
@@ -106,12 +107,7 @@ describe('with httpMocks', function () {
       response = httpMocks.createResponse({
         eventEmitter: require('events').EventEmitter
       });
-      this.raml = new Raml({ express: app });
-       done();
-    });
-
-    afterEach(function () {
-      this.raml = null;
+      done();
     });
 
     it('post /aaa', function (done) {
@@ -137,8 +133,37 @@ describe('with httpMocks', function () {
       });
 
       var _this = this;
-      this.raml.storeResponses(request, response, function next(error) {
-        _this.raml.express(request, response, function next(error) {
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+
+    it('post /aaa again', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/aaa',
+        query: {
+          name: 'foo'
+        },
+        route: {
+          path: '/aaa',
+          stack: [{
+            method: 'post',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(400);
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
         });
       });
     });
@@ -166,8 +191,37 @@ describe('with httpMocks', function () {
       });
 
       var _this = this;
-      this.raml.storeResponses(request, response, function next(error) {
-        _this.raml.express(request, response, function next(error) {
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+
+    it('delete /aaa/123 again', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'DELETE',
+        url: '/aaa/123',
+        query: {
+          name: 'foo'
+        },
+        route: {
+          path: '/aaa/123',
+          stack: [{
+            method: 'delete',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(400);
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
         });
       });
     });
@@ -195,8 +249,30 @@ describe('with httpMocks', function () {
       });
 
       var _this = this;
-      this.raml.storeResponses(request, response, function next(error) {
-        _this.raml.express(request, response, function next(error) {
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+
+    it('no route', function (done) {
+      request = httpMocks.createRequest({
+        method: 'GET',
+        url: '/aaaBBB',
+        query: {
+          name: 'foo'
+        },
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(400);
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
         });
       });
     });
