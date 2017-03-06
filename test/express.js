@@ -19,6 +19,7 @@ describe('testing express', function () {
       { route: { path: '/bbb', methods: { get: true } } },
     ], }, };
     app.use = function() {};
+    app.get = function() {};
 
     beforeEach(function () {
       this.raml = new Raml({ express: app });
@@ -42,6 +43,7 @@ describe('testing express', function () {
     describe('check various empties app', function () {
       beforeEach(function () {
         if(app) app.use = function() {};
+        if(app) app.get = function() {};
         this.raml = new Raml({ express: app });
       });
 
@@ -98,6 +100,7 @@ describe('with httpMocks', function () {
       { route: { path: '/aaa/:id', methods: { get: true } } },
     ], }, };
     app.use = function() {};
+    app.get = function() {};
 
     var raml = new Raml({ express: app });
     var request = {};
