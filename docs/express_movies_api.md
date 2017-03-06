@@ -162,42 +162,42 @@ types:
                "error": "id exists"
              }
     
-    /{id}:
-      get:
-        description: get /movies/:id
-        responses:
-          200:
-            body:
-              application/json:
-                example: |
-                 {
-                   "name": "Shaun of the Dead",
-                   "year": 2004
-                 }
-          404:
-            body:
-              application/json:
-                example: |
-                 {
-                   "error": "movie not found"
-                 }
-      delete:
-        description: delete /movies/:id
-        responses:
-          200:
-            body:
-              application/json:
-                example: |
-                 {
-                   "ok": true
-                 }
-          404:
-            body:
-              application/json:
-                example: |
-                 {
-                   "error": "movie not found"
-                 }
+  /{id}:
+    get:
+      description: get /movies/:id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+               {
+                 "name": "Shaun of the Dead",
+                 "year": 2004
+               }
+        404:
+          body:
+            application/json:
+              example: |
+               {
+                 "error": "movie not found"
+               }
+    delete:
+      description: delete /movies/:id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+               {
+                 "ok": true
+               }
+        404:
+          body:
+            application/json:
+              example: |
+               {
+                 "error": "movie not found"
+               }
 ```
 
 ## Created by

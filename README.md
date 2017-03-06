@@ -59,11 +59,11 @@ types:
   post:
     description: post /movies
     
-    /{id}:
-      get:
-        description: get /movies/:id
-      delete:
-        description: delete /movies/:id
+  /{id}:
+    get:
+      description: get /movies/:id
+    delete:
+      description: delete /movies/:id
 ```
 
 ## Usage: RAML from object

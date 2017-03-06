@@ -122,7 +122,7 @@ function getMethodsTree(methodsData) {
       if (undef(result[url[i]]) && url[i].indexOf(url[j] + '/') == 0) {
         result[url[i]] = {
           shortLink: url[i].replace(url[j] + '/', ''),
-          deep: url[j].split('/').length,
+          deep: url[j].replace(/^\//,'').split('/').length,
           data: methodsData[url[i]],
         };
       }
