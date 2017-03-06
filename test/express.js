@@ -121,6 +121,12 @@ describe('with httpMocks', function () {
         query: {
           name: 'foo'
         },
+        headers: {
+          'content-type' : 'application/json',
+        },
+        body: {
+          name: 'foo'
+        },
         route: {
           path: '/aaa',
           stack: [{
@@ -131,7 +137,9 @@ describe('with httpMocks', function () {
 
       response.on('end', function () {
         // console.log(response._getData());
-        response.status(400);
+        response.status(201);
+        response._headers['content-type'] = 'application/json';
+        response.end('{"name":"foo"}');
         done();
       });
 
@@ -150,6 +158,86 @@ describe('with httpMocks', function () {
         query: {
           name: 'foo'
         },
+        headers: {
+          'content-type' : 'application/json',
+        },
+        body: {
+          name: 'foo'
+        },
+        route: {
+          path: '/aaa',
+          stack: [{
+            method: 'post',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(201);
+        response._headers['content-type'] = 'application/json';
+        response.end('{"error":"conflict"}');
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+
+    it('post /aaa again', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/aaa',
+        query: {
+          name: 'foo'
+        },
+        headers: {
+          'content-type' : 'application/json',
+        },
+        body: {
+          name: 'foo'
+        },
+        route: {
+          path: '/aaa',
+          stack: [{
+            method: 'post',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(409);
+        response._headers['content-type'] = 'text/other';
+        response.end('{"error":"conflict"}');
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+
+    it('post /aaa unknown content type', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/aaa',
+        query: {
+          name: 'foo'
+        },
+        headers: {
+          'content-type' : 'unknown',
+        },
+        body: {
+          name: 'foo'
+        },
         route: {
           path: '/aaa',
           stack: [{
@@ -161,6 +249,8 @@ describe('with httpMocks', function () {
       response.on('end', function () {
         // console.log(response._getData());
         response.status(400);
+        response._headers['content-type'] = 'unknown';
+        response.end('{"name":"foo"}');
         done();
       });
 
