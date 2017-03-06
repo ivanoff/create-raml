@@ -57,34 +57,46 @@ app.listen(3000, function () {
 ```
 curl 127.0.0.1:3000/movies
 ```
-
 `{"1":{"name":"Shaun of the Dead","year":2004},"2":{"name":"Hot Fuzz","year":2007}}`
-
 
 ```
 curl 127.0.0.1:3000/movies/1
 ```
 `{"name":"Shaun of the Dead","year":2004}`
 
-```curl 127.0.0.1:3000/movies/3```
+```
+curl 127.0.0.1:3000/movies/3
+```
 `{"error":"movie not found"}`
 
-```curl -X POST -H "Content-Type: application/json" -d '{"id":3,"name":"The World\u0027s End","year":2013}' 127.0.0.1:3000/movies```
+```
+curl -X POST -H "Content-Type: application/json" -d '{"id":3,"name":"The World\u0027s End","year":2013}' 127.0.0.1:3000/movies
+```
 `{"id":3,"name":"The World's End","year":2013}`
 
-```curl 127.0.0.1:3000/movies```
+```
+curl 127.0.0.1:3000/movies
+```
 `{"1":{"name":"Shaun of the Dead","year":2004},"2":{"name":"Hot Fuzz","year":2007},"3":{"id":3,"name":"The World's End","year":2013}}`
 
-```curl -X POST -H "Content-Type: application/json" -d '{"id":3,"name":"Paul"}' 127.0.0.1:3000/movies```
+```
+curl -X POST -H "Content-Type: application/json" -d '{"id":3,"name":"Paul"}' 127.0.0.1:3000/movies
+```
 `{"error":"id exists"}`
 
-```curl -X POST -H "Content-Type: application/json" -d '{"id":4,"name":"Paul"}' 127.0.0.1:3000/movies```
+```
+curl -X POST -H "Content-Type: application/json" -d '{"id":4,"name":"Paul"}' 127.0.0.1:3000/movies
+```
 `{"id":4,"name":"Paul"}`
 
-```curl -X DELETE 127.0.0.1:3000/movies/4```
+```
+curl -X DELETE 127.0.0.1:3000/movies/4
+```
 `{"ok":true}`
 
-```curl -X DELETE 127.0.0.1:3000/movies/4```
+```
+curl -X DELETE 127.0.0.1:3000/movies/4
+```
 `{"error":"movie not found"}`
 
 
