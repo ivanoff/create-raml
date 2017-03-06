@@ -1,13 +1,21 @@
 # create-raml changelog
 
+## [3.0.1](http://github.com/ivanoff/create-raml/tree/3.0.1) (2017-03-05)
+[Full Changelog](http://github.com/ivanoff/create-raml/compare/2.0.1...3.0.1)
+
+**What Was Done:**
+
+- add express support
+
+
 ## [2.0.1](http://github.com/ivanoff/create-raml/tree/2.0.1) (2017-03-01)
 [Full Changelog](http://github.com/ivanoff/create-raml/compare/1.1.1...2.0.1)
 
 **What Was Done:**
 
-- add express support
 - add raml2obj validator test
 - add RAML v0.8
+
 
 ## [1.1.1](http://github.com/ivanoff/create-raml/tree/1.1.1) (2017-02-28)
 [Full Changelog](http://github.com/ivanoff/create-raml/compare/1.0.1...1.1.1)
