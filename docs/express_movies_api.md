@@ -54,12 +54,16 @@ app.listen(3000, function () {
 
 ### Workflow requests
 
-``curl 127.0.0.1:3000/movies``
+```
+curl 127.0.0.1:3000/movies
+```
 
 `{"1":{"name":"Shaun of the Dead","year":2004},"2":{"name":"Hot Fuzz","year":2007}}`
 
 
-```curl 127.0.0.1:3000/movies/1```
+```
+curl 127.0.0.1:3000/movies/1
+```
 `{"name":"Shaun of the Dead","year":2004}`
 
 ```curl 127.0.0.1:3000/movies/3```
