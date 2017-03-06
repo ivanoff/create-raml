@@ -22,7 +22,7 @@ describe('testing express', function () {
     app.get = function() {};
 
     beforeEach(function () {
-      this.raml = new Raml({ express: app });
+      this.raml = new Raml({ express: app, storeResponses: true });
     });
 
     afterEach(function () {
@@ -44,7 +44,7 @@ describe('testing express', function () {
       beforeEach(function () {
         if(app) app.use = function() {};
         if(app) app.get = function() {};
-        this.raml = new Raml({ express: app });
+        this.raml = new Raml({ express: app, storeResponses: true });
       });
 
       afterEach(function () {
@@ -102,7 +102,7 @@ describe('with httpMocks', function () {
     app.use = function() {};
     app.get = function() {};
 
-    var raml = new Raml({ express: app });
+    var raml = new Raml({ express: app, storeResponses: true });
     var request = {};
     var response = {};
 

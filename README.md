@@ -23,6 +23,15 @@
 
 ## RAML from express
 
+## Change Log
+
+[extended express API example](docs/express_movies_api.md)
+
+[![MIT License][license-image]][license-url]
+[travis-url]: https://travis-ci.org/ivanoff/create-raml
+[travis-image]: https://travis-ci.org/ivanoff/create-raml.svg?branch=master
+
+
 ```javascript
 var express = require('express');
 var Raml = require('create-raml');
