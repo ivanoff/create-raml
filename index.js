@@ -14,6 +14,7 @@ exports = module.exports = function (options) {
 
   if (undef(options)) options = {};
   var ramlFile = (options.version === 0.8) ? 'raml_0_8.nunjucks' : 'raml_1_0.nunjucks';
+  var apiPath = options.path || '/api.raml';
   if (undef(options.templateFileName))
     options.templateFileName = path.resolve(__dirname, 'templates', ramlFile);
 
@@ -23,7 +24,7 @@ exports = module.exports = function (options) {
     return (undef(name)) ? typesData
       : (undef(obj)) ? typesData[name]
       : typesData[name] = obj;
-  }
+  };
 
   exp.methods = function (name, method, obj) {
     if (undef(name)) {
@@ -36,41 +37,32 @@ exports = module.exports = function (options) {
       if (undef(methodsData[name])) methodsData[name] = {};
       methodsData[name][method] = obj;
     }
-  }
+  };
 
-  exp.express = function (req, res) {
+  exp.checkMethodsData = function () {
     if (options.express && Object.keys(methodsData).length === 0)
       methodsData = parseExpressData(options.express);
+  };
+
+  exp.express = function (req, res) {
+    this.checkMethodsData();
     this.generate(function (err, data) {
       res.send(data);
     });
-  }
+  };
 
   exp.storeResponses = function (req, res, next) {
+    this.checkMethodsData();
     var resEnd = res.end;
 
-    res.end = function (chunk) {
+    res.end = function (c) {
       resEnd.apply(res, arguments);
-      if(req.route) {
-        var r = req.route;
-        if(undef(methodsData[r.path])) methodsData[r.path] = {};
-        if(undef(methodsData[r.path][r.stack[0].method]))
-          methodsData[r.path][r.stack[0].method] = {
-            description: r.stack[0].method + ' STORED ' + r.path,
-          }
-
-        var m = methodsData[r.path][r.stack[0].method];
-        if(undef(m.responses)) m.responses = {};
-        if(undef(m.responses[res.statusCode]))
-          m.responses[res.statusCode] = {
-            'application/json': {aaa:123},
-            'application/text': 'hi!'
-          };
-      }
+      if (options.storeResponses && req.route && req.route.path !== apiPath)
+        methodsData[req.route.path] = updateMethodsData(methodsData[req.route.path], req, res, c);
     };
 
     next();
-  }
+  };
 
   exp.generate = function (cb) {
     fs.readFile(options.templateFileName, function (err, template) {
@@ -87,9 +79,12 @@ exports = module.exports = function (options) {
         cb(null, nunjucks.renderString(template.toString(), view));
       }
     });
-  }
+  };
 
-  if(options.express) options.express.use(exp.storeResponses.bind(exp))
+  if (options.express) {
+    options.express.use(exp.storeResponses.bind(exp));
+    options.express.get(apiPath, exp.express.bind(exp));
+  }
 
   return exp;
 
@@ -162,3 +157,39 @@ function parseExpressData(app) {
   return result;
 }
 
+function updateMethodsData(methodsPath, req, res, chunk) {
+  var r = req.route;
+
+  if (undef(methodsPath)) methodsPath = {};
+  if (undef(methodsPath[r.stack[0].method]))
+    methodsPath[r.stack[0].method] = {
+      description: r.stack[0].method + ' ' + r.path,
+    };
+
+  var m = methodsPath[r.stack[0].method];
+
+  if (req.headers['content-type']) {
+    var reqCType = req.headers['content-type'].match(/([^;]*(application|text)[^;]*)/);
+    if (reqCType && reqCType[1]) {
+      if (undef(m.body)) m.body = {};
+      if (undef(m.body[reqCType[1]]))
+        m.body[reqCType[1]] = {
+          example: req.body,
+        };
+    }
+  }
+
+  if (res._headers['content-type']) {
+    var resCType = res._headers['content-type'].match(/([^;]*(application|text)[^;]*)/);
+    if (resCType && resCType[1]) {
+      var result = chunk.toString();
+      if (resCType[1] === 'application/json') result = JSON.parse(result);
+      if (undef(m.responses)) m.responses = {};
+      if (undef(m.responses[res.statusCode])) m.responses[res.statusCode] = {};
+      if (undef(m.responses[res.statusCode][resCType[1]]))
+        m.responses[res.statusCode][resCType[1]] = result;
+    }
+  }
+
+  return methodsPath;
+}

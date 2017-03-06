@@ -21,6 +21,53 @@
 
 ## Usage
 
+## RAML from express
+
+```javascript
+var express = require('express');
+var Raml = require('create-raml');
+
+var app = express();
+var raml = new Raml({ express: app });
+
+app.get('/movies', function (req, res) { res.send('List of all movies'); });
+app.post('/movies', function (req, res) { res.send('Add new movie'); });
+app.get('/movies/:id', function (req, res) { res.send('Get movie by id'); });
+app.delete('/movies/:id', function (req, res) { res.send('Delete movie by id'); });
+
+app.listen(3000, function () { console.log('Example app listening on port 3000!'); });
+```
+
+```curl 127.0.0.1:3000/api.raml```
+
+### Result
+
+```
+#%RAML 1.0
+title: 
+version: 
+
+types:
+
+/api.raml:
+  get:
+    description: get /api.raml
+
+/movies:
+  get:
+    description: get /movies
+  post:
+    description: post /movies
+    
+    /{id}:
+      get:
+        description: get /movies/:id
+      delete:
+        description: delete /movies/:id
+```
+
+## RAML from object
+
 ```javascript
 var Raml = require('create-raml');
 var raml = new Raml({
