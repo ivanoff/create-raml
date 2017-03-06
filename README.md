@@ -12,7 +12,7 @@
 
 ### Create RAML from object
 
- v3.0.1
+ v3.1.1
 
 
 ## Installation

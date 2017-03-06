@@ -1,5 +1,13 @@
 # create-raml changelog
 
+## [3.1.1](http://github.com/ivanoff/create-raml/tree/3.1.1) (2017-03-07)
+[Full Changelog](http://github.com/ivanoff/create-raml/compare/3.0.1...3.1.1)
+
+**What Was Done:**
+
+- fixing Unknown node error
+
+
 ## [3.0.1](http://github.com/ivanoff/create-raml/tree/3.0.1) (2017-03-05)
 [Full Changelog](http://github.com/ivanoff/create-raml/compare/2.0.1...3.0.1)
 
