@@ -19,9 +19,9 @@
 ```npm i -S create-raml```
 
 
-## Usage
+## Usage: RAML from express
 
-## RAML from express
+- [extended express API example](docs/express_movies_api.md)
 
 ```javascript
 var express = require('express');
@@ -66,7 +66,7 @@ types:
         description: delete /movies/:id
 ```
 
-## RAML from object
+## Usage: RAML from object
 
 ```javascript
 var Raml = require('create-raml');
