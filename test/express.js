@@ -92,7 +92,7 @@ describe('testing express', function () {
 
 });
 
-describe('with httpMocks', function () {
+describe('with httpMocks no guessAll', function () {
 
     var app = { _router: { stack: [
       { route: { path: '/aaa', methods: { get: true } } },
@@ -111,6 +111,130 @@ describe('with httpMocks', function () {
         eventEmitter: require('events').EventEmitter
       });
       done();
+    });
+
+    it('post /aaa', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/aaa',
+        query: {
+          name: 'foo'
+        },
+        headers: {
+          'content-type' : 'application/json',
+        },
+        body: {
+          name: 'foo'
+        },
+        route: {
+          path: '/aaa',
+          stack: [{
+            method: 'post',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(201);
+        response._headers['content-type'] = 'application/json';
+        response.end('{"name":"foo"}');
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+
+    it('post /aaa again', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/aaa',
+        query: {
+          name: 'foo'
+        },
+        headers: {
+          'content-type' : 'application/json',
+        },
+        body: {
+          name: 'foo'
+        },
+        route: {
+          path: '/aaa',
+          stack: [{
+            method: 'post',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(201);
+        response._headers['content-type'] = 'application/json';
+        response.end('{"error":"conflict"}');
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
+    });
+});
+
+describe('with httpMocks', function () {
+
+    var app = { _router: { stack: [
+      { route: { path: '/aaa', methods: { get: true } } },
+      { route: { path: '/aaa', methods: { post: true } } },
+      { route: { path: '/aaa/:id', methods: { get: true } } },
+    ], }, };
+    app.use = function() {};
+    app.get = function() {};
+
+    var raml = new Raml({ express: app, storeResponses: true, guessAll: true });
+    var request = {};
+    var response = {};
+
+    beforeEach(function(done) {
+      response = httpMocks.createResponse({
+        eventEmitter: require('events').EventEmitter
+      });
+      done();
+    });
+
+    it('get /aaa/1/bbb', function (done) {
+
+      request = httpMocks.createRequest({
+        method: 'GET',
+        url: '/aaa/1/bbb',
+        route: {
+          path: '/aaa/:id/bbb',
+          stack: [{
+            method: 'get',
+          }]
+        }
+      });
+
+      response.on('end', function () {
+        // console.log(response._getData());
+        response.status(200);
+        response._headers['content-type'] = 'application/json';
+        response.end('{"name":"foo"}');
+        done();
+      });
+
+      var _this = this;
+      raml.storeResponses(request, response, function next(error) {
+        raml.express(request, response, function next(error) {
+        });
+      });
     });
 
     it('post /aaa', function (done) {

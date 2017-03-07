@@ -10,20 +10,20 @@
 
 # create-raml
 
-### Create RAML from object
+### Create RAML from object or Express.js application
 
- v3.1.1
+ v3.2.2
 
 
 ## Installation
 ```npm i -S create-raml```
 
 
-## Usage: RAML from express
+## Create RAML based on Express.js
 
 ### Extended example
 
-- [extended express API example](docs/express_movies_api.md) - movies database API example ( GET, POST, DELETE methods; RAM data storage ). Result example as html: [Movies Database API documentation](http://create-raml.simpleness.org/express_movies_api.html)
+- [extended Express API example](docs/express_movies_api.md) - movies database API example ( GET, POST, DELETE methods; RAM data storage ). Result example as html: [Movies Database API documentation](http://create-raml.simpleness.org/express_movies_api.html)
 
 ### Simple example
 
@@ -70,7 +70,7 @@ types:
       description: delete /movies/:id
 ```
 
-## Usage: RAML from object
+## Create RAML from object
 
 ```javascript
 var Raml = require('create-raml');
@@ -99,7 +99,7 @@ raml.generate(function (err, ramlText) {
 ```
 
 
-## Result
+### Result
 
 ```
 #%RAML 1.0
@@ -144,6 +144,23 @@ types:
                "message": "Books not found"
              }
 ```
+
+## Options parameters
+
+```javascript
+var raml = new Raml(options);
+```
+
+ - **version** - version of RAML ( default: 1.0 )
+ - **express** - an Express application
+ - **path** - path to get API RAML ( default: /api.raml )
+ - **storeResponses** - store first response as example ( default: false )
+ - **guessAll** - make description quite pretty ( default: false )
+ - **title** - title of API in document
+ - **baseUri** - URI of API in document
+ - **versionAPI** - version of API in document
+ - **templateFileName** - path to template
+
 
 ## Tests
 

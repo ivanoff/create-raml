@@ -92,3 +92,13 @@ types:
                {
                  "error": "movie not found"
                }
+      
+    /actors:
+      get:
+        description: List of actors that movie #ID {id} has
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                 {}

@@ -26,9 +26,9 @@ app.use(bodyParser.json());
 
 var raml = new Raml({
   express: app,
-  path: '/api.raml',
-  storeResponses: true,
-  guessAll: true,
+  path: '/api.raml', // path to API RAML
+  storeResponses: true, // store first response as example
+  guessAll: true, // make description quite pretty
   title: 'Movies Database',
   baseUri: 'http://127.0.0.1:3000',
   version: 'v1',
@@ -55,6 +55,8 @@ app.delete('/movies/:id', function (req, res) {
   if (movies[req.params.id]) res.json({ ok: delete movies[req.params.id] });
   else res.status(404).json({ error: 'movie not found' });
 });
+
+app.get('/movies/:id/actors', function (req, res) { res.json({}); });
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
@@ -128,6 +130,14 @@ curl -X DELETE 127.0.0.1:3000/movies/4
 curl -X DELETE 127.0.0.1:3000/movies/4
 ```
 `{"error":"movie not found"}`
+
+
+#### Get list of actors (not implemented)
+
+```
+curl 127.0.0.1:3000/movies/1/actors
+```
+`{}`
 
 
 ### Get RAML
@@ -231,6 +241,16 @@ types:
                {
                  "error": "movie not found"
                }
+      
+    /actors:
+      get:
+        description: List of actors that movie #ID {id} has
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                 {}
 ```
 
 ## Created by

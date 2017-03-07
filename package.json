@@ -1,6 +1,6 @@
 {
   "name": "create-raml",
-  "version": "3.1.1",
+  "version": "3.2.2",
   "description": "Create RAML",
   "main": "index.js",
   "scripts": {

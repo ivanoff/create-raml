@@ -41,7 +41,7 @@ exports = module.exports = function (options) {
 
   exp.checkMethodsData = function () {
     if (options.express && Object.keys(methodsData).length === 0)
-      methodsData = parseExpressData(options.express);
+      methodsData = parseExpressData(options);
   };
 
   exp.express = function (req, res) {
@@ -58,7 +58,8 @@ exports = module.exports = function (options) {
     res.end = function (c) {
       resEnd.apply(res, arguments);
       if (options.storeResponses && req.route && req.route.path !== apiPath)
-        methodsData[req.route.path] = updateMethodsData(methodsData[req.route.path], req, res, c);
+        methodsData[req.route.path] =
+          updateMethodsData(methodsData[req.route.path], req, res, c, options);
     };
 
     next();
@@ -136,7 +137,8 @@ function getMethodsTree(methodsData) {
   return result;
 }
 
-function parseExpressData(app) {
+function parseExpressData(options) {
+  var app = options.express;
   if (undef(app) || undef(app._router)) return {};
   var s = app._router.stack;
   if (!Array.isArray(s)) return {};
@@ -149,7 +151,7 @@ function parseExpressData(app) {
     if (undef(result[r.path])) result[r.path] = {};
     Object.keys(r.methods).forEach(function (method) {
       result[r.path][method] = {
-        description: method + ' ' + r.path,
+        description: guessDescription( method, r.path, options.guessAll ),
       };
     });
   }
@@ -157,13 +159,13 @@ function parseExpressData(app) {
   return result;
 }
 
-function updateMethodsData(methodsPath, req, res, chunk) {
+function updateMethodsData(methodsPath, req, res, chunk, options) {
   var r = req.route;
 
   if (undef(methodsPath)) methodsPath = {};
   if (undef(methodsPath[r.stack[0].method]))
     methodsPath[r.stack[0].method] = {
-      description: r.stack[0].method + ' ' + r.path,
+      description: guessDescription( r.stack[0].method, r.path, options.guessAll ),
     };
 
   var m = methodsPath[r.stack[0].method];
@@ -193,3 +195,35 @@ function updateMethodsData(methodsPath, req, res, chunk) {
 
   return methodsPath;
 }
+
+function guessDescription( method, path, guess ) {
+  var defaultResult = method + ' ' + path;
+  if(!guess) return defaultResult;
+  var responseText = {
+    get : 'List all {names}',
+    getOne: 'Get {name} with ID# {id}',
+    getSub: 'List of {subnames} that {name} #ID {id} owns',
+    post : 'Insert a new record in to {name} collection',
+    postSub: 'Insert a new record in to {subname} collection that {name} #ID {id} has',
+    put : 'Replace {name} with ID# {id}',
+    patch : 'Modify {name} with ID# {id}',
+    delete : 'Delete {name} with ID# {id}',
+  };
+  var result;
+  var m = method.toLowerCase();
+  var r;
+  if( r = path.match(/^\/?([^\/]+?)s?\/:([^/:-]+)\/(([^\/]+?)s?)$/) ){
+    m += 'Sub';
+    result = responseText[m].replace('{name}',r[1]).replace('{id}','{'+r[2]+'}');
+    result = result.replace('{subname}',r[4]).replace('{subnames}',r[3]);
+  }
+  if( r = path.match(/^\/?([^\/]+?)s?\/:([^/:-]+)$/) ){
+    if(m === 'get') m = 'getOne';
+    result = responseText[m].replace('{name}',r[1]).replace('{id}','{'+r[2]+'}');
+  }
+  if( r  = path.match(/^\/?(([^\/]+?)s?)$/) ){
+    result = responseText[m].replace('{name}',r[2]).replace('{names}',r[1]);
+  }
+  return result || defaultResult;
+}
+

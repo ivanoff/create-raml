@@ -1,5 +1,14 @@
 # create-raml changelog
 
+## [3.2.2](http://github.com/ivanoff/create-raml/tree/3.2.2) (2017-03-07)
+[Full Changelog](http://github.com/ivanoff/create-raml/compare/3.1.1...3.2.2)
+
+**What Was Done:**
+
+- guessAll implemented to make description quite pretty
+- describe options parameters
+
+
 ## [3.1.1](http://github.com/ivanoff/create-raml/tree/3.1.1) (2017-03-07)
 [Full Changelog](http://github.com/ivanoff/create-raml/compare/3.0.1...3.1.1)
 
