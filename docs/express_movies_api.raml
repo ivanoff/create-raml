@@ -7,11 +7,11 @@ types:
 
 /api.raml:
   get:
-    description: get /api.raml
+    description: List all /api.raml
 
 /movies:
   get:
-    description: get /movies
+    description: List all movies
     responses:
       200:
         body:
@@ -28,7 +28,7 @@ types:
                }
              }
   post:
-    description: post /movies
+    description: Insert a new record in to movie collection
     body:
       application/json:
         type: 
@@ -58,7 +58,7 @@ types:
     
   /{id}:
     get:
-      description: get /movies/:id
+      description: Get movie with ID {id}
       responses:
         200:
           body:
@@ -76,7 +76,7 @@ types:
                  "error": "movie not found"
                }
     delete:
-      description: delete /movies/:id
+      description: Delete movie with ID {id}
       responses:
         200:
           body:
@@ -95,7 +95,7 @@ types:
       
     /actors:
       get:
-        description: List of actors that movie #ID {id} has
+        description: List of actors that movie {id} has
         responses:
           200:
             body:

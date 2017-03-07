@@ -201,13 +201,13 @@ function guessDescription( method, path, guess ) {
   if(!guess) return defaultResult;
   var responseText = {
     get : 'List all {names}',
-    getOne: 'Get {name} with ID# {id}',
-    getSub: 'List of {subnames} that {name} #ID {id} owns',
+    getOne: 'Get {name} with ID {id}',
+    getSub: 'List of {subnames} that {name} ID {id} owns',
     post : 'Insert a new record in to {name} collection',
-    postSub: 'Insert a new record in to {subname} collection that {name} #ID {id} has',
-    put : 'Replace {name} with ID# {id}',
-    patch : 'Modify {name} with ID# {id}',
-    delete : 'Delete {name} with ID# {id}',
+    postSub: 'Insert a new record in to {subname} collection that {name} ID {id} has',
+    put : 'Replace {name} with ID {id}',
+    patch : 'Modify {name} with ID {id}',
+    delete : 'Delete {name} with ID {id}',
   };
   var result;
   var m = method.toLowerCase();
