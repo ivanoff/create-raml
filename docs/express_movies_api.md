@@ -7,9 +7,11 @@
 
 ### Install modules
 
-```npm install -S express```
-```npm install -S body-parser```
-```npm install -S create-raml```
+```bash
+npm install -S express
+npm install -S body-parser
+npm install -S create-raml
+```
 
 
 ### API script
@@ -22,7 +24,15 @@ var Raml = require('create-raml');
 var app = express();
 app.use(bodyParser.json());
 
-var raml = new Raml({ express: app, path: '/api.raml', storeResponses: true, guessAll: true });
+var raml = new Raml({
+  express: app,
+  path: '/api.raml',
+  storeResponses: true,
+  guessAll: true,
+  title: 'Movies Database',
+  baseUri: 'http://127.0.0.1:3000',
+  version: 'v1',
+});
 
 var movies = {
   1: { name: 'Shaun of the Dead', year: 2004 },
@@ -54,20 +64,31 @@ app.listen(3000, function () {
 
 ### Workflow requests
 
+- Get all movies
+
 ```
 curl 127.0.0.1:3000/movies
 ```
 `{"1":{"name":"Shaun of the Dead","year":2004},"2":{"name":"Hot Fuzz","year":2007}}`
+
+
+- Get movie by id
 
 ```
 curl 127.0.0.1:3000/movies/1
 ```
 `{"name":"Shaun of the Dead","year":2004}`
 
+
+- Get not exists movie
+
 ```
 curl 127.0.0.1:3000/movies/3
 ```
 `{"error":"movie not found"}`
+
+
+- Add movie
 
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"id":3,"name":"The World\u0027s End","year":2013}' 127.0.0.1:3000/movies
@@ -79,6 +100,9 @@ curl 127.0.0.1:3000/movies
 ```
 `{"1":{"name":"Shaun of the Dead","year":2004},"2":{"name":"Hot Fuzz","year":2007},"3":{"id":3,"name":"The World's End","year":2013}}`
 
+
+- Add movie with exists id
+
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"id":3,"name":"Paul"}' 127.0.0.1:3000/movies
 ```
@@ -89,10 +113,16 @@ curl -X POST -H "Content-Type: application/json" -d '{"id":4,"name":"Paul"}' 127
 ```
 `{"id":4,"name":"Paul"}`
 
+
+- Delete movie by id
+
 ```
 curl -X DELETE 127.0.0.1:3000/movies/4
 ```
 `{"ok":true}`
+
+
+- Delete not exists movie
 
 ```
 curl -X DELETE 127.0.0.1:3000/movies/4
@@ -100,14 +130,17 @@ curl -X DELETE 127.0.0.1:3000/movies/4
 `{"error":"movie not found"}`
 
 
-### Result
+### Get RAML
 
-```curl 127.0.0.1:3000/api.raml```
+```bash
+curl 127.0.0.1:3000/api.raml
+```
 
 ```
 #%RAML 1.0
-title: 
-version: 
+title: Movies Database
+baseUri: http://127.0.0.1:3000
+version: v1
 
 types:
 

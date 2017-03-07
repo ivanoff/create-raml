@@ -1,0 +1,94 @@
+#%RAML 1.0
+title: Movies Database
+baseUri: http://127.0.0.1:3000
+version: v1
+
+types:
+
+/api.raml:
+  get:
+    description: get /api.raml
+
+/movies:
+  get:
+    description: get /movies
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+             {
+               "1": {
+                 "name": "Shaun of the Dead",
+                 "year": 2004
+               },
+               "2": {
+                 "name": "Hot Fuzz",
+                 "year": 2007
+               }
+             }
+  post:
+    description: post /movies
+    body:
+      application/json:
+        type: 
+        example: |
+         {
+           "id": 3,
+           "name": "The World's End",
+           "year": 2013
+         }
+    responses:
+      201:
+        body:
+          application/json:
+            example: |
+             {
+               "id": 3,
+               "name": "The World's End",
+               "year": 2013
+             }
+      409:
+        body:
+          application/json:
+            example: |
+             {
+               "error": "id exists"
+             }
+    
+  /{id}:
+    get:
+      description: get /movies/:id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+               {
+                 "name": "Shaun of the Dead",
+                 "year": 2004
+               }
+        404:
+          body:
+            application/json:
+              example: |
+               {
+                 "error": "movie not found"
+               }
+    delete:
+      description: delete /movies/:id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+               {
+                 "ok": true
+               }
+        404:
+          body:
+            application/json:
+              example: |
+               {
+                 "error": "movie not found"
+               }

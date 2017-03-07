@@ -21,7 +21,11 @@
 
 ## Usage: RAML from express
 
-- [extended express API example](docs/express_movies_api.md)
+### Extended example
+
+- [extended express API example](docs/express_movies_api.md) - movies database API example ( GET, POST, DELETE methods; RAM data storage ). Result example as html: [Movies Database API documentation](http://create-raml.simpleness.org/express_movies_api.html)
+
+### Simple example
 
 ```javascript
 var express = require('express');
