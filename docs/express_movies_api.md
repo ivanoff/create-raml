@@ -1,8 +1,10 @@
 # create-raml
 
-## Extended express API example
-
 [back to readme](../README.md)
+
+## Movies database API example ( GET, POST, DELETE methods; RAM data storage )
+
+Result example as html: [Movies Database API documentation](http://create-raml.simpleness.org/express_movies_api.html)
 
 
 ### Install modules

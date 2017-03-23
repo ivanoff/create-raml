@@ -1,5 +1,13 @@
 # create-raml changelog
 
+## [3.2.3](http://github.com/ivanoff/create-raml/tree/3.2.3) (2017-03-23)
+[Full Changelog](http://github.com/ivanoff/create-raml/compare/3.2.2...3.2.3)
+
+**What Was Done:**
+
+- add simple express example
+
+
 ## [3.2.2](http://github.com/ivanoff/create-raml/tree/3.2.2) (2017-03-07)
 [Full Changelog](http://github.com/ivanoff/create-raml/compare/3.1.1...3.2.2)
 

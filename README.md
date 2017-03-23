@@ -12,7 +12,7 @@
 
 ### Create RAML from object or Express.js application
 
- v3.2.2
+ v3.2.3
 
 
 ## Installation
@@ -21,7 +21,25 @@
 
 ## Create RAML based on Express.js
 
-### Extended example
+### Simple express example
+
+```javascript
+var express = require('express');
+var Raml = require('create-raml');
+
+var app = express();
+
+var raml = new Raml({ express: app });
+
+// regular app express workflow ( app.get, app.post, app.listen... etc )
+```
+
+### Get created raml
+
+```curl 127.0.0.1:3000/api.raml```
+
+
+### Extended express example
 
 - [extended Express API example](docs/express_movies_api.md) - movies database API example ( GET, POST, DELETE methods; RAM data storage ). Result example as html: [Movies Database API documentation](http://create-raml.simpleness.org/express_movies_api.html)
 
