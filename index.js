@@ -184,7 +184,7 @@ function updateMethodsData(methodsPath, req, res, chunk, options) {
   if (res._headers['content-type']) {
     var resCType = res._headers['content-type'].match(/([^;]*(application|text)[^;]*)/);
     if (resCType && resCType[1]) {
-      var result = chunk.toString();
+      var result = chunk? chunk.toString() : '{}';
       if (resCType[1] === 'application/json') result = JSON.parse(result);
       if (undef(m.responses)) m.responses = {};
       if (undef(m.responses[res.statusCode])) m.responses[res.statusCode] = {};
