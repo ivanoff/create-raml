@@ -1,5 +1,13 @@
 # create-raml changelog
 
+## [3.2.4](http://github.com/ivanoff/create-raml/tree/3.2.4) (2018-10-18)
+[Full Changelog](http://github.com/ivanoff/create-raml/compare/3.2.3...3.2.4)
+
+**What Was Done:**
+
+- fix dependencies
+
+
 ## [3.2.3](http://github.com/ivanoff/create-raml/tree/3.2.3) (2017-03-23)
 [Full Changelog](http://github.com/ivanoff/create-raml/compare/3.2.2...3.2.3)
 

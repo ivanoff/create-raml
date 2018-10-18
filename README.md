@@ -12,7 +12,12 @@
 
 ### Create RAML from object or Express.js application
 
- v3.2.3
+ v3.2.4
+
+
+## Dependencies
+
+- Node.js v.4.0 or higher
 
 
 ## Installation
