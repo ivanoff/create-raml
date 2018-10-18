@@ -17,7 +17,7 @@
 
 ## Dependencies
 
-- Node.js v.4.0 or higher
+- Node.js v.6.0 or higher
 
 
 ## Installation
