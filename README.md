@@ -12,7 +12,7 @@
 
 ### Create RAML from object or Express.js application
 
- v3.2.4
+ v3.2.5
 
 
 ## Dependencies
