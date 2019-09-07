@@ -1,6 +1,6 @@
 {
   "name": "create-raml",
-  "version": "3.2.5",
+  "version": "3.3.5",
   "description": "Create RAML",
   "main": "index.js",
   "scripts": {
@@ -25,16 +25,18 @@
   },
   "homepage": "https://github.com/ivanoff/create-raml",
   "devDependencies": {
-    "body-parser": "^1.17.0",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.2",
-    "express": "^4.15.0",
+    "coveralls": "^3.0.6",
+    "express": "^4.17.1",
     "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
-    "node-mocks-http": "^1.6.1",
-    "raml2obj": "^6.1.0"
+    "mocha": "^6.2.0",
+    "node-mocks-http": "^1.7.6",
+    "raml2obj": "^6.5.0"
   },
   "dependencies": {
-    "nunjucks": "^3.0.0"
+    "koa": "^2.8.1",
+    "koa-route": "^3.2.0",
+    "nunjucks": "^3.2.0"
   }
 }
