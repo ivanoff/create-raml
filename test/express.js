@@ -23,6 +23,17 @@ describe('testing express', function () {
         regexp: /^\/xxx\/(?:([^\/]+?))\/?(?=\/|$)/i,
         handle: { stack: [ { route: { path: '/zzz', methods: { get: true } } } ] },
       },
+      {
+        name: 'router',
+        regexp: /^\/xxx2\/(?:([^\/]+?))\/?(?=\/|$)/i,
+        handle: { stack: [
+          undefined,
+          { },
+          { route: { path: 'no_methods' } },
+          { route: { methods: 'not_object' } },
+          { route: { methods: { no_path: true } } },
+        ] },
+      },
     ], }, };
     app.use = function() {};
     app.get = function() {};

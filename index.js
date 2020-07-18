@@ -149,6 +149,7 @@ function parseExpressData(options) {
 
     if(s[i].name === 'router' && s[i].handle && s[i].handle.stack) {
       var routePath = s[i].regexp.toString();
+      if(!s[i].keys) s[i].keys = [];
       for(var j = 0; j < s[i].keys.length; j++) {
         routePath = routePath.replace('(?:([^\\/]+?))', ':' + s[i].keys[j].name);
       }
