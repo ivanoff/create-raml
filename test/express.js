@@ -25,6 +25,12 @@ describe('testing express', function () {
       },
       {
         name: 'router',
+        keys: [ { name: 'yyy' } ],
+        regexp: /^\/xxx\/(?:([^\/]+?))\/?(?=\/|$)/i,
+        handle: { stack: [ { route: { path: '/zzz', methods: { get: true } } } ] },
+      },
+      {
+        name: 'router',
         regexp: /^\/xxx2\/(?:([^\/]+?))\/?(?=\/|$)/i,
         handle: { stack: [
           undefined,
