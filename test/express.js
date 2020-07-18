@@ -17,6 +17,12 @@ describe('testing express', function () {
       { route: { path: '/aaa', methods: { post: true } } },
       { route: { path: '/aaa/:idAaa', methods: { get: true } } },
       { route: { path: '/bbb', methods: { get: true } } },
+      {
+        name: 'router',
+        keys: [ { name: 'yyy' } ],
+        regexp: /^\/xxx\/(?:([^\/]+?))\/?(?=\/|$)/i,
+        handle: { stack: [ { route: { path: '/zzz', methods: { get: true } } } ] },
+      },
     ], }, };
     app.use = function() {};
     app.get = function() {};
@@ -34,6 +40,7 @@ describe('testing express', function () {
           data.should.match(/^\/aaa:/m);
           data.should.match(/^\/bbb:/m);
           data.should.match(/\s\/{idAaa}:(.|\s)+\/bbb/);
+          data.should.match(/^\/xxx\/{yyy}\/zzz:/m);
           done();
         }, });
     });

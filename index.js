@@ -146,6 +146,31 @@ function parseExpressData(options) {
   var result = {};
   for (var i = 0; i < s.length; i++) {
     if (undef(s[i])) continue;
+
+    if(s[i].name === 'router' && s[i].handle && s[i].handle.stack) {
+      var routePath = s[i].regexp.toString();
+      for(var j = 0; j < s[i].keys.length; j++) {
+        routePath = routePath.replace('(?:([^\\/]+?))', ':' + s[i].keys[j].name);
+      }
+      routePath = routePath.replace(/\\/g, '').replace('/^', '').replace('/?(?=/|$)/i', '');
+
+      var rs = s[i].handle.stack;
+      for (var j = 0; j < rs.length; j++) {
+        if (undef(rs[j])) continue;
+
+        var r = rs[j].route;
+        if (undef(r) || undef(r.path) || undef(r.methods)) continue;
+        var path = routePath + r.path;
+        if (undef(result[path])) result[path] = {};
+        Object.keys(r.methods).forEach(function (method) {
+          result[path][method] = {
+            description: guessDescription( method, path, options.guessAll ),
+          };
+        });
+      }
+      continue;
+    }
+
     var r = s[i].route;
     if (undef(r) || undef(r.path) || undef(r.methods)) continue;
     if (undef(result[r.path])) result[r.path] = {};

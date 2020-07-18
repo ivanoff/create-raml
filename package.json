@@ -27,16 +27,16 @@
   "devDependencies": {
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.6",
+    "coveralls": "^3.1.0",
     "express": "^4.17.1",
     "istanbul": "^0.4.5",
-    "mocha": "^6.2.0",
-    "node-mocks-http": "^1.7.6",
-    "raml2obj": "^6.5.0"
+    "mocha": "^6.2.3",
+    "node-mocks-http": "^1.8.1",
+    "raml2obj": "^6.7.0"
   },
   "dependencies": {
-    "koa": "^2.8.1",
+    "koa": "^2.13.0",
     "koa-route": "^3.2.0",
-    "nunjucks": "^3.2.0"
+    "nunjucks": "^3.2.1"
   }
 }
